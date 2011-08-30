@@ -4,14 +4,24 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <h2>
-        Welcome to ASP.NET!
-    </h2>
+    <h1>Css</h1>
+    <p>This code in the master page:</p>
     <p>
-        To learn more about ASP.NET visit <a href="http://www.asp.net" title="ASP.NET Website">www.asp.net</a>.
+        <code><%= HttpUtility.HtmlEncode("<%= Rejuiced.CssFor(\"~/Combined.css\")") %></code>
     </p>
+    <p>produces</p>
     <p>
-        You can also find <a href="http://go.microsoft.com/fwlink/?LinkID=152368&amp;clcid=0x409"
-            title="MSDN ASP.NET Docs">documentation on ASP.NET at MSDN</a>.
+        <code><%= HttpUtility.HtmlEncode(Rejuiced.CssFor("~/Combined.css").ToString()) %></code>
+    </p>
+
+    <div class="testImageCssTransform"></div>
+    <h1>Js</h1>
+    <p>This code in the master page:</p>
+    <p>
+        <code><%= HttpUtility.HtmlEncode("<%= Rejuiced.JsFor(\"~/Combined-{0}.js\")")%></code>
+    </p>
+    <p>produces</p>
+    <p>
+        <code><%= HttpUtility.HtmlEncode(Rejuiced.JsFor("~/Combined-{0}.js").ToString()) %></code>
     </p>
 </asp:Content>

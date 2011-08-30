@@ -32,13 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="EcmaScript.NET.modified">
       <HintPath>..\..\..\..\Lib\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Rejuicer, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Rejuicer">
       <HintPath>..\..\..\..\Lib\Rejuicer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -56,8 +54,7 @@
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="Yahoo.Yui.Compressor, Version=1.5.0.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Yahoo.Yui.Compressor">
       <HintPath>..\..\..\..\Lib\Yahoo.Yui.Compressor.dll</HintPath>
     </Reference>
   </ItemGroup>

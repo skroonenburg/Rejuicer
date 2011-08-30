@@ -39,7 +39,7 @@
       <HintPath>..\..\..\..\Lib\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Rejuicer, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Rejuicer, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Rejuicer.dll</HintPath>
     </Reference>

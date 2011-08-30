@@ -292,3 +292,15 @@ div.accountInfo
     text-align: right;
     padding-right: 10px;
 }
+
+.testImageCssTransform
+{
+    background-image: url(~/Styles/transformedUrlImage.png);
+    width: 400px;
+    height: 72px;
+}
+
+code
+{
+    font-size: 200%;
+}
