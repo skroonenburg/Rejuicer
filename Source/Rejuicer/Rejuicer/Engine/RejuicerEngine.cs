@@ -215,7 +215,7 @@ namespace Rejuicer
             var output = new OutputContent();
 
             // Combine all of the files into one string
-            var combined = string.Join(Environment.NewLine, files.Select(f => { using (var reader = f.OpenText()) { return FileTransformationPipeline.TransformInputFile(reader.ReadToEnd(), type); }}).ToArray());
+            var combined = string.Join(Environment.NewLine, files.Select(f => { using (var reader = f.OpenText()) { return FileTransformationPipeline.TransformInputFile(reader.ReadToEnd(), type); }}));
 
             if (mode == Mode.Compact)
             {

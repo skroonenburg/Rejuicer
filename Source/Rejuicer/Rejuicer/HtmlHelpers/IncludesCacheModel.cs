@@ -9,12 +9,12 @@ namespace Rejuicer.HtmlHelpers
 {
     public class IncludesCacheModel
     {
-        public string IncludesHtml { get; set; }
+        public IHtmlString IncludesHtml { get; set; }
         public Guid UniqueCode { get; set; }
 
-        public string RenderHtml()
+        public IHtmlString RenderHtml()
         {
-            return IncludesHtml.Replace(RejuicedFileModel.FilenameUniquePlaceholder, UniqueCode.ToString());
+            return new HtmlString(IncludesHtml.ToString().Replace(RejuicedFileModel.FilenameUniquePlaceholder, UniqueCode.ToString()));
         }
     }
 }
