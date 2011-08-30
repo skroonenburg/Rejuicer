@@ -43,7 +43,7 @@ namespace Rejuicer
                     if (physicalPath == null)
                         continue;
 
-                    allFiles.AddRange(Directory.EnumerateFiles(physicalPath.FullName, model.WildCard, SearchOption.TopDirectoryOnly)
+                    allFiles.AddRange(Directory.GetFiles(physicalPath.FullName, model.WildCard, SearchOption.TopDirectoryOnly)
                         .Select(file => new FileInfo(file)));
                 }
             }
