@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rejuicer", "Rejuicer\Rejuicer.csproj", "{084F7A79-1D16-438B-8FE8-14FB389CD274}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rejuicer-test", "Rejuicer-test\Rejuicer-test.csproj", "{3A5CA036-05A4-4871-AEBA-9D7C2B34B182}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RejuicerConfiguration-test", "RejuicerConfiguration-test\RejuicerConfiguration-test.csproj", "{52A52D5C-E907-46B4-9A39-435CF560B1A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{084F7A79-1D16-438B-8FE8-14FB389CD274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084F7A79-1D16-438B-8FE8-14FB389CD274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084F7A79-1D16-438B-8FE8-14FB389CD274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084F7A79-1D16-438B-8FE8-14FB389CD274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A5CA036-05A4-4871-AEBA-9D7C2B34B182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A5CA036-05A4-4871-AEBA-9D7C2B34B182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A5CA036-05A4-4871-AEBA-9D7C2B34B182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A5CA036-05A4-4871-AEBA-9D7C2B34B182}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A52D5C-E907-46B4-9A39-435CF560B1A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A52D5C-E907-46B4-9A39-435CF560B1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A52D5C-E907-46B4-9A39-435CF560B1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A52D5C-E907-46B4-9A39-435CF560B1A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

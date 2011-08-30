@@ -1,0 +1,6 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Default" />
+  <Config name="Default" appbase="C:\dev\bitbucket\kiandra\rejuicer\Source\Rejuicer\RejuicerConfiguration-test\bin\Release" configfile="RejuicerConfiguration-test.dll.config" binpathtype="Auto" runtimeFramework="any">
+    <assembly path="..\..\..\test\..\RejuicerConfiguration-test\bin\Release\RejuicerConfiguration-test.dll" />
+  </Config>
+</NUnitProject>

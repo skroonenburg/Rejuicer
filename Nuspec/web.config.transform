@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <system.web>
+    <httpModules>
+      <add name="Rejuicer" type="Rejuicer.RejuicerModule, Rejuicer" />
+    </httpModules>
+
+    <pages>
+      <namespaces>
+        <add namespace="Rejuicer"/>
+      </namespaces>
+    </pages>
+  </system.web>
+  <system.webServer>
+    <modules runAllManagedModulesForAllRequests="true">
+      <add name="Rejuicer" type="Rejuicer.RejuicerModule, Rejuicer"/>
+    </modules>
+  </system.webServer>
+</configuration>

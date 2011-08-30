@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\dev\bitbucket\kiandra\rejuicer\Source\Rejuicer\test\RejuicerConfiguration-test.nunit</TopNode>
+  <SelectedNode>[0-1000]C:\dev\bitbucket\kiandra\rejuicer\Source\Rejuicer\test\RejuicerConfiguration-test.nunit</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\dev\bitbucket\kiandra\rejuicer\Source\Rejuicer\test\RejuicerConfiguration-test.nunit" Expanded="true" />
+    <Node UniqueName="[0-1005]C:\dev\bitbucket\kiandra\rejuicer\Source\Rejuicer\RejuicerConfiguration-test\bin\Release\..\..\..\test\..\RejuicerConfiguration-test\bin\Release\RejuicerConfiguration-test.dll" Expanded="true" />
+    <Node UniqueName="[0-1006]Rejuicer_test" Expanded="true" />
+    <Node UniqueName="[0-1001]Rejuicer_test.ConfigurationTest" Expanded="true" />
+  </Nodes>
+</VisualState>
