@@ -14,12 +14,12 @@ namespace Rejuicer
 {
     public static class Rejuiced
     {
-        public static IHtmlString CssFor(string filename)
+        public static string CssFor(string filename)
         {
             return IncludeRejuicedCssFor(null, filename);
         }
 
-        public static IHtmlString JsFor(string filename)
+        public static string JsFor(string filename)
         {
             return IncludeRejuicedJsFor(null, filename);
         }
@@ -27,7 +27,7 @@ namespace Rejuicer
         private static IVirtualPathResolver virtualPathResolver = new VirtualPathResolver();
         private static ICacheProvider cacheProvider = new CacheProvider();
 
-        public static IHtmlString IncludeRejuicedJsFor(this HtmlHelper instance, string filename)
+        public static string IncludeRejuicedJsFor(this HtmlHelper instance, string filename)
         {
             var cachedValue = GetCachedIncludesFor(filename);
             if (cachedValue != null)
@@ -38,15 +38,15 @@ namespace Rejuicer
             var toInclude = GetIncludesFor(filename);
             var dependencies = GetDependenciesFor(filename);
 
-            var scripts = new HtmlString(string.Join("\n", toInclude.Select(f =>
+            var scripts = string.Join("\n", toInclude.Select(f =>
             {
                 // Output <script src='' type=''>
                 var script = new TagBuilder("script");
-                script.Attributes.Add("src", UrlHelper.GenerateContentUrl(f, HttpContext.Current.Request.RequestContext.HttpContext));
+                script.Attributes.Add("src", UrlHelper.GenerateContentUrl(f, new HttpContextWrapper(HttpContext.Current)));
                 script.Attributes.Add("type", "text/javascript");
 
                 return script.ToString(TagRenderMode.Normal);
-            })));
+            }).ToArray());
 
             var cachedIncludes = new IncludesCacheModel { IncludesHtml = scripts, UniqueCode = Guid.NewGuid() };
 
@@ -55,7 +55,7 @@ namespace Rejuicer
             return cachedIncludes.RenderHtml();
         }
 
-        public static IHtmlString IncludeRejuicedCssFor(this HtmlHelper instance, string filename)
+        public static string IncludeRejuicedCssFor(this HtmlHelper instance, string filename)
         {
             var cachedValue = GetCachedIncludesFor(filename);
             if (cachedValue != null)
@@ -66,7 +66,7 @@ namespace Rejuicer
             var toInclude = GetIncludesFor(filename);
             var dependencies = GetDependenciesFor(filename);
 
-            var links = new HtmlString(string.Join("\n", toInclude.Select(f =>
+            var links = string.Join("\n", toInclude.Select(f =>
             {
                 // Output <script src='' type=''>
                 var link = new TagBuilder("link");
@@ -75,7 +75,7 @@ namespace Rejuicer
                 link.Attributes.Add("type", "text/css");
 
                 return link.ToString(TagRenderMode.SelfClosing);
-            })));
+            }).ToArray());
 
             var cachedIncludes = new IncludesCacheModel { IncludesHtml = links, UniqueCode = Guid.NewGuid() };
 
