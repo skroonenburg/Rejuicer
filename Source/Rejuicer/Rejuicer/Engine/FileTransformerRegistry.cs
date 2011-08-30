@@ -26,6 +26,14 @@ namespace Rejuicer.Engine
             _transformerRegistrations[resourceType].Add(fileTransformer);
         }
 
+        public static void ClearRegistrations(ResourceType resourceType)
+        {
+            if (_transformerRegistrations.ContainsKey(resourceType))
+            {
+                _transformerRegistrations[resourceType].Clear();
+            }
+        }
+
         public static void Unregister(ResourceType resourceType, IFileTransformer fileTransformer)
         {
             if (_transformerRegistrations.ContainsKey(resourceType))
