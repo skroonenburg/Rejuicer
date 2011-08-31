@@ -15,8 +15,8 @@
     </dependencies>
   </metadata>
   <files>
-	  <file src="..\NET 4.0\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\40\Rejuicer.dll" />
-	  <file src="..\NET 3.5\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\35\Rejuicer.dll" />
+	  <file src="..\..\NET40\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\40\Rejuicer.dll" />
+	  <file src="..\..\NET35\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\35\Rejuicer.dll" />
     <file src="web.config.transform" target="Content\web.config.transform" />
   </files>
 </package>
