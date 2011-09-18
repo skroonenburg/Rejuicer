@@ -345,7 +345,7 @@ div#title
    
 .testImageCssTransform
 {
-    background-image: url(~/Content/transformedUrlImage.png);
+    background-image: url(~/Content/transformedUrlImage{0}.png);
     width: 400px;
     height: 72px;
 }

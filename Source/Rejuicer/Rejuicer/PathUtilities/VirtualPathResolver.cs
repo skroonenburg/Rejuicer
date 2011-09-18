@@ -36,12 +36,18 @@ namespace Rejuicer
 
         public string ResolveVirtualPath(string virtualPath)
         {
-            return HttpContext.Current.Request.MapPath(virtualPath);
+            return HttpContext.Current.Server.MapPath(virtualPath);
         }
 
         public string GetRelativeUrl(string virtualPath)
         {
-            return UrlHelper.GenerateContentUrl(virtualPath, new HttpContextWrapper(HttpContext.Current));
+            return VirtualPathUtility.ToAbsolute(virtualPath);
+        }
+
+        public string GetVirtualPathFor(FileInfo file)
+        {
+            var root = HttpContext.Current.Server.MapPath("~");
+            return string.Format("~/{0}", file.FullName.Substring(root.Length).Replace('\\', '/'));
         }
     }
 }

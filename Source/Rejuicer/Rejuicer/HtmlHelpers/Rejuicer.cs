@@ -36,7 +36,8 @@ namespace Rejuicer
             }
 
             var toInclude = GetIncludesFor(filename);
-            var dependencies = GetDependenciesFor(filename);
+            var config = RejuicerEngine.GetConfigFor(filename);
+            var dependencies = config.GetDependencies();
 
             var scripts = new HtmlString(string.Join("\n", toInclude.Select(f =>
             {
@@ -48,7 +49,7 @@ namespace Rejuicer
                 return script.ToString(TagRenderMode.Normal);
             })));
 
-            var cachedIncludes = new IncludesCacheModel { IncludesHtml = scripts, UniqueCode = Guid.NewGuid() };
+            var cachedIncludes = new IncludesCacheModel { IncludesHtml = scripts, Timestamp = config.GetLastModifiedDate(cacheProvider) };
 
             SetCachedIncludesFor(filename, cachedIncludes, dependencies);
 
@@ -64,7 +65,8 @@ namespace Rejuicer
             }
 
             var toInclude = GetIncludesFor(filename);
-            var dependencies = GetDependenciesFor(filename);
+            var config = RejuicerEngine.GetConfigFor(filename);
+            var dependencies = config.GetDependencies();
 
             var links = new HtmlString(string.Join("\n", toInclude.Select(f =>
             {
@@ -77,7 +79,7 @@ namespace Rejuicer
                 return link.ToString(TagRenderMode.SelfClosing);
             })));
 
-            var cachedIncludes = new IncludesCacheModel { IncludesHtml = links, UniqueCode = Guid.NewGuid() };
+            var cachedIncludes = new IncludesCacheModel { IncludesHtml = links, Timestamp = config.GetLastModifiedDate(cacheProvider) };
 
             SetCachedIncludesFor(filename, cachedIncludes, dependencies);
 
@@ -108,14 +110,9 @@ namespace Rejuicer
             return toInclude;
         }
 
-        private static IEnumerable<FileInfo> GetDependenciesFor(string filename)
-        {
-            return RejuicerEngine.GetDependenciesFor(filename);
-        }
-
         private static IncludesCacheModel GetCachedIncludesFor(string filename)
         {
-            return cacheProvider.Get<IncludesCacheModel>(filename);
+            return cacheProvider.Get<IncludesCacheModel>(GetCacheKeyFor(filename));
         }
 
         private static void SetCachedIncludesFor(string filename, IncludesCacheModel value, IEnumerable<FileInfo> files)
@@ -124,7 +121,12 @@ namespace Rejuicer
             var dependencies = PassThroughOnDebugging ? null :
                 files.Where(f => f != null);
 
-            cacheProvider.Add(filename, value, dependencies);
+            cacheProvider.Add(GetCacheKeyFor(filename), value, dependencies);
+        }
+
+        private static string GetCacheKeyFor(string filename)
+        {
+            return string.Format("rejuicer-includes-{0}", filename);
         }
     }
 }

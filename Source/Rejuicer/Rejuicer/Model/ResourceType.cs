@@ -3,6 +3,7 @@
     public enum ResourceType
     {
         Css = 0,
-        Js = 1
+        Js = 1,
+        Image = 2
     }
 }

@@ -23,12 +23,6 @@ namespace Rejuicer.Configuration
             }
         }
 
-        [ConfigurationProperty("Cache", IsRequired = false)]
-        public bool? Cache
-        {
-            get { return (bool?)this["Cache"]; }
-        }
-
         [ConfigurationProperty("PreventPassThroughOnDebug", IsRequired = false)]
         public bool? PreventPassThroughOnDebug
         {

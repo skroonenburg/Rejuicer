@@ -10,11 +10,11 @@ namespace Rejuicer.HtmlHelpers
     public class IncludesCacheModel
     {
         public IHtmlString IncludesHtml { get; set; }
-        public Guid UniqueCode { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public IHtmlString RenderHtml()
         {
-            return new HtmlString(IncludesHtml.ToString().Replace(RejuicedFileModel.FilenameUniquePlaceholder, UniqueCode.ToString()));
+            return new HtmlString(IncludesHtml.ToString().Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, (Timestamp - DateTime.MinValue).Ticks.ToString()));
         }
     }
 }

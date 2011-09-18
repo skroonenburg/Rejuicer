@@ -30,13 +30,18 @@ namespace MvcDemo
             OnRequest.ForJs("~/Combined-{0}.js")
                      .Compact
                      .FilesIn("~/Scripts/")
-                       .Matching("*.js")
+                       .Matching("jquery-*.js")
                      .Configure();
 
             OnRequest.ForCss("~/Combined.css")
                      .Compact
                      .File("~/Content/Site.css")
                      .Configure();
+
+            OnRequest.ForImage("~/CachedImage-{0}.png")
+                    .Combine
+                    .File("~/Content/transformedUrlImage.png")
+                    .Configure();
         }
 
         protected void Application_Start()

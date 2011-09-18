@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -37,7 +38,7 @@ namespace Rejuicer
 
                 if (HttpRuntime.UsingIntegratedPipeline)
                 {
-                    response.Headers.Add("Last-Modified", result.LastModifiedDate);
+                    response.Headers.Add("Last-Modified", result.LastModifiedDate.ToString());
                 }
 
                 if (result.AllowClientCaching)
@@ -56,7 +57,15 @@ namespace Rejuicer
                 }
                 else
                 {
-                    response.Write(result.Content);
+                    var buffer = new byte[1024];
+                    result.Content.Seek(0, SeekOrigin.Begin);
+
+                    while (result.Content.Read(buffer, 0, buffer.Length) > 0)
+                    {
+                        response.BinaryWrite(buffer);
+                    }
+                    
+                    result.Content.Seek(0, SeekOrigin.Begin);
                 }
 
                 response.Flush();

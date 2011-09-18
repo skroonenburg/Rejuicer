@@ -12,5 +12,6 @@ namespace Rejuicer
         System.IO.FileInfo ResolveVirtualPathToFile(string virtualPath);
         string ResolveVirtualPath(string virtualPath);
         string GetRelativeUrl(string virtualPath);
+        string GetVirtualPathFor(FileInfo file);
     }
 }

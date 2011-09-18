@@ -8,16 +8,16 @@ namespace Rejuicer
 {
     internal class CompactorConfigurer : ICompactorModeSelector, ICompactorConfigurer, ICompactorContextSelector
     {
-        protected internal RejuicedFileModel _config;
+        protected internal RejuicerConfigurationSource _config;
 
-        public CompactorConfigurer(RejuicedFileModel config)
+        public CompactorConfigurer(RejuicerConfigurationSource config)
         {
             _config = config;
         }
 
         public ICompactorConfigurer Compact
         {
-            get { _config.Mode = Mode.Compact; return this; }
+            get { _config.Mode = Mode.Minify; return this; }
         }
 
         public ICompactorConfigurer Combine
@@ -25,30 +25,31 @@ namespace Rejuicer
             get { _config.Mode = Mode.Combine; return this; }
         }
 
-        public ICompactorConfigurer File(string filename)
+        public ICompactorConfigurer File(string virtualPath)
         {
-            _config.AddFile(filename);
+            return File(virtualPath, Mode.Minify);
+        }
+
+        public ICompactorConfigurer File(string virtualPath, Mode mode)
+        {
+            _config.AddRule(new SingleFileRule(virtualPath, mode));
             return this;
         }
 
         public IDirectoryFileMatchConfigurer FilesIn(string path)
         {
-            var fileMatchConfig = new FileMatchModel(path);
-            _config.AddFilesMatching(fileMatchConfig);
+            return FilesIn(path, Mode.Minify);
+        }
 
-            return new DirectoryFileMatchConfigurer(this, fileMatchConfig);
+        public IDirectoryFileMatchConfigurer FilesIn(string path, Mode mode)
+        {
+            return new DirectoryFileMatchConfigurer(this, _config, path, mode);
         }
 
         public void Configure()
         {
             // Pass this configuration to the compactor, so that it is remembered.
             RejuicerEngine.AddConfiguration(_config);
-        }
-
-
-        public ICompactorConfigurer DoNotCache
-        {
-            get { _config.Cache = false; return this; }
         }
 
         public ICompactorContextSelector Always

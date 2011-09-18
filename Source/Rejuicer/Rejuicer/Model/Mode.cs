@@ -1,8 +1,8 @@
 ﻿namespace Rejuicer.Model
 {
-    internal enum Mode
+    public enum Mode
     {
-        Compact = 0,
+        Minify = 0,
         Combine = 1
     }
 }

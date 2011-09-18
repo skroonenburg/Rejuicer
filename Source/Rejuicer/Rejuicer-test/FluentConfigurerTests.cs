@@ -16,7 +16,7 @@ namespace Rejuicer_test
             RejuicerEngine._configurations.Clear();
         }
 
-        private RejuicedFileModel GetModelFor(object configurer)
+        private RejuicerConfigurationSource GetModelFor(object configurer)
         {
             return ((CompactorConfigurer)configurer)._config;
         }
@@ -50,23 +50,7 @@ namespace Rejuicer_test
         {
             var config = GetModelFor(OnRequest.ForJs("~/Scripts/Combined-Test.js").Compact);
 
-            Assert.AreEqual(Mode.Compact, config.Mode);
-        }
-
-        [Test]
-        public void FluentConfiguration_ConfigureCaching_CachingConfigIsTrue()
-        {
-            var config = GetModelFor(OnRequest.ForJs("~/Scripts/Combined-Test.js").Combine);
-
-            Assert.IsTrue(config.Cache);
-        }
-
-        [Test]
-        public void FluentConfiguration_DoNotConfigureCaching_CachingConfigIsFalse()
-        {
-            var config = GetModelFor(OnRequest.ForJs("~/Scripts/Combined-Test.js").Combine.DoNotCache);
-
-            Assert.IsFalse(config.Cache);
+            Assert.AreEqual(Mode.Minify, config.Mode);
         }
 
         [Test]
@@ -75,30 +59,8 @@ namespace Rejuicer_test
             var config = GetModelFor(OnRequest.ForJs("~/Scripts/Combined-Test.js").Combine
                     .File("~/Scripts/myfile.js"));
 
-            Assert.AreEqual(1, config.OrderedFiles.Count);
-            Assert.AreEqual("~/Scripts/myfile.js", config.OrderedFiles[0]);
-        }
-
-        [Test]
-        public void FluentConfiguration_AllFilesInPath_AddsFilesMatchingToConfig()
-        {
-            var config = GetModelFor(OnRequest.ForJs("~/Scripts/Combined-Test.js").Combine
-                    .FilesIn("~/Scripts/").All);
-
-            Assert.AreEqual(1, config.OrderedFiles.Count);
-            Assert.AreEqual("~/Scripts/", ((FileMatchModel) config.OrderedFiles[0]).Path);
-            Assert.IsNull(((FileMatchModel)config.OrderedFiles[0]).WildCard);
-        }
-
-        [Test]
-        public void FluentConfiguration_AllFilesInPathMatchingWildcard_AddsFilesMatchingWildcardToConfig()
-        {
-            var config = GetModelFor(OnRequest.ForJs("~/Scripts/Combined-Test.js").Combine
-                    .FilesIn("~/Scripts/").Matching("*.js"));
-
-            Assert.AreEqual(1, config.OrderedFiles.Count);
-            Assert.AreEqual("~/Scripts/", ((FileMatchModel)config.OrderedFiles[0]).Path);
-            Assert.AreEqual("*.js", ((FileMatchModel)config.OrderedFiles[0]).WildCard);
+            Assert.AreEqual(1, config.Count);
+            Assert.AreEqual("~/Scripts/myfile.js", ((PhysicalFileSource)config[0]).VirtualPath);
         }
 
         [Test]

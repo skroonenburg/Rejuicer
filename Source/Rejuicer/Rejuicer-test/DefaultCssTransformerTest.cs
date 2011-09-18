@@ -87,6 +87,11 @@ namespace Rejuicer_test
             {
                 return _replacement(virtualPath);
             }
+
+            public string GetVirtualPathFor(FileInfo file)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

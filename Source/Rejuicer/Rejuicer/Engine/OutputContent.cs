@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Rejuicer.Model;
 
 namespace Rejuicer.Engine
 {
-    internal class OutputContent
+    public class OutputContent
     {
         public OutputContent()
         {
-            LastModifiedDate = DateTime.Now.ToString();
+            LastModifiedDate = DateTime.Now;
         }
 
-        public string Content { get; set; }
+        public Stream Content { get; set; }
         public string ContentType { get; set; }
         public bool AllowClientCaching { get; set; }
-        public string LastModifiedDate { get; set; }
-
-        public OutputContent Configure(RejuicedFileModel model)
-        {
-            AllowClientCaching = model.ContainsPlaceHolder;
-
-            return this;
-        }
+        public DateTime LastModifiedDate { get; set; }
     }
 }

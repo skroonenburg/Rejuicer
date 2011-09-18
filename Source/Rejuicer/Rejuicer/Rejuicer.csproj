@@ -59,17 +59,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\BaseStringMinificationProvider.cs" />
     <Compile Include="Engine\CacheProvider.cs" />
+    <Compile Include="Engine\ImageMinificationProvider.cs" />
+    <Compile Include="Model\IPhysicalFileDependency.cs" />
+    <Compile Include="Engine\JsMinificationProvider.cs" />
+    <Compile Include="Engine\CssMinificationProvider.cs" />
     <Compile Include="Engine\DefaultCssTransformer.cs" />
     <Compile Include="Engine\FileTransformationPipeline.cs" />
     <Compile Include="Engine\FileTransformerRegistry.cs" />
     <Compile Include="Engine\ICacheProvider.cs" />
     <Compile Include="Engine\IFileTransformer.cs" />
+    <Compile Include="Engine\IMinificationProvider.cs" />
+    <Compile Include="Engine\MinificationRegistry.cs" />
     <Compile Include="Engine\OutputContent.cs" />
+    <Compile Include="Engine\StreamUtilities.cs" />
     <Compile Include="HtmlHelpers\IncludesCacheModel.cs" />
     <Compile Include="HtmlHelpers\Rejuicer.cs" />
+    <Compile Include="Model\IContentSource.cs" />
+    <Compile Include="Model\PhysicalFileSource.cs" />
+    <Compile Include="Rules\IContentSourceRule.cs" />
+    <Compile Include="Rules\WildcardMatchFileRule.cs" />
+    <Compile Include="Rules\SingleFileRule.cs" />
     <Compile Include="PathUtilities\IVirtualPathResolver.cs" />
-    <Compile Include="Model\RejuicedFileModel.cs" />
+    <Compile Include="Model\RejuicerConfigurationSource.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Fluent\CompactorConfigurer.cs" />
@@ -78,7 +91,6 @@
     <Compile Include="Engine\RejuicerEngine.cs" />
     <Compile Include="Fluent\ICompactorContextSelector.cs" />
     <Compile Include="Fluent\DirectoryFileMatchConfigurer.cs" />
-    <Compile Include="Model\FileMatchModel.cs" />
     <Compile Include="Engine\FileResolver.cs" />
     <Compile Include="Fluent\ICompactorConfigurer.cs" />
     <Compile Include="Fluent\ICompactorModeSelector.cs" />
