@@ -80,10 +80,15 @@ namespace Rejuicer.Model
 
         public IEnumerable<FileInfo> GetDependencies()
         {
+            return GetDependencies(null);
+        }
+
+        public IEnumerable<FileInfo> GetDependencies(ResourceType? resourceType)
+        {
             _lock.EnterReadLock();
             try
             {
-                return this.SelectMany(x => x.GetDependencies()).Distinct();
+                return this.SelectMany(x => x.GetDependencies(resourceType)).Distinct();
             }
             finally
             {
@@ -100,6 +105,11 @@ namespace Rejuicer.Model
         {
             return RequestFor.Replace(FilenameUniquePlaceholder,
                                       (GetLastModifiedDate(cacheProvider) - DateTime.MinValue).Ticks.ToString());
+        }
+
+        public string GetNonTimestampedUrl(ICacheProvider cacheProvider)
+        {
+            return RequestFor.Replace(FilenameUniquePlaceholder, "");
         }
 
         public OutputContent GetContent(ICacheProvider cacheProvider)

@@ -10,6 +10,7 @@ namespace Rejuicer.Model
     public interface IContentSource
     {
         ResourceType ResourceType { get; }
+        IEnumerable<FileInfo> GetDependencies(ResourceType? resourceType);
         IEnumerable<FileInfo> GetDependencies();
         OutputContent GetContent(ICacheProvider cacheProvider);
     }

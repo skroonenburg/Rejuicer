@@ -37,6 +37,12 @@ namespace Rejuicer
 
             var toInclude = GetIncludesFor(filename);
             var config = RejuicerEngine.GetConfigFor(filename);
+
+            if (config == null)
+            {
+                return new HtmlString("");
+            }
+
             var dependencies = config.GetDependencies();
 
             var scripts = new HtmlString(string.Join("\n", toInclude.Select(f =>
@@ -86,19 +92,11 @@ namespace Rejuicer
             return cachedIncludes.RenderHtml();
         }
 
-        private static bool PassThroughOnDebugging
-        {
-            get
-            {
-                return HttpContext.Current.IsDebuggingEnabled && !(RejuicerConfiguration.Current != null && RejuicerConfiguration.Current.PreventPassThroughOnDebug.HasValue && RejuicerConfiguration.Current.PreventPassThroughOnDebug.Value);
-            }
-        }
-
         private static IEnumerable<string> GetIncludesFor(string filename)
         {
             var toInclude = new List<string>();
 
-            if (PassThroughOnDebugging)
+            if (RejuicerEngine.IsPassThroughEnabled)
             {
                 toInclude.AddRange(RejuicerEngine.GetVirtualPathsFor(filename));
             }
@@ -118,7 +116,7 @@ namespace Rejuicer
         private static void SetCachedIncludesFor(string filename, IncludesCacheModel value, IEnumerable<FileInfo> files)
         {
             // Create a depdency on all of the files
-            var dependencies = PassThroughOnDebugging ? null :
+            var dependencies = RejuicerEngine.IsPassThroughEnabled ? null :
                 files.Where(f => f != null);
 
             cacheProvider.Add(GetCacheKeyFor(filename), value, dependencies);

@@ -19,7 +19,7 @@ namespace Rejuicer
         
         public static IEnumerable<string> VirtualPathsFor(RejuicerConfigurationSource config)
         {
-            return config == null ? Enumerable.Empty<string>() : config.GetDependencies().Select(f => VirtualPathResolver.GetVirtualPathFor(f));
+            return config == null ? Enumerable.Empty<string>() : config.GetDependencies(config.ResourceType).Select(f => VirtualPathResolver.GetVirtualPathFor(f));
         }
 
         private class FileComparer : IEqualityComparer<FileInfo>

@@ -41,6 +41,11 @@ namespace Rejuicer.Engine
                                                                                   var url = x.Groups["capturedUrl"];
                                                                                   if (url != null)
                                                                                   {
+                                                                                      if (!url.Value.StartsWith("~"))
+                                                                                      {
+                                                                                          return x.Value;
+                                                                                      }
+
                                                                                       var quotation = x.Groups["quotation"];
                                                                                       var quoteWrapper = quotation != null ? quotation.Value : "";
                                                                                       var virtualPath = url.Value;
@@ -59,7 +64,9 @@ namespace Rejuicer.Engine
                                                                                           }
 
                                                                                           // get the timestamp and write it out into the URL... 
-                                                                                          virtualPath = RejuicerEngine.GetConfigFor(virtualPath).GetTimestampedUrl(_cacheProvider);
+                                                                                          var config = RejuicerEngine.GetConfigFor(virtualPath);
+                                                                                          // don't timestamp the URL in pass through mode
+                                                                                          virtualPath = RejuicerEngine.IsPassThroughEnabled ? config.GetNonTimestampedUrl(_cacheProvider) : config.GetTimestampedUrl(_cacheProvider);
 
                                                                                           // Need to add a dependency of this CSS file to the now linked image.
                                                                                           source.AddDependency(RejuicerEngine.GetConfigFor(url.Value));

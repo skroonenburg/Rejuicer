@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using Rejuicer;
 using Rejuicer.Engine;
+using Rejuicer.Model;
 
 namespace Rejuicer_test
 {
@@ -14,7 +15,7 @@ namespace Rejuicer_test
     {
         private string TransformCss(string css, Func<string, string> replacement)
         {
-            return new DefaultCssTransformer(new StubVirtualPathResolver(replacement)).TransformFile(css);
+            return new DefaultCssTransformer(new StubVirtualPathResolver(replacement)).TransformFile(new PhysicalFileSource(ResourceType.Css, Mode.Minify, "~/test.css", "test.css"), css.AsStream()).ReadString();
         }
 
         [Test]

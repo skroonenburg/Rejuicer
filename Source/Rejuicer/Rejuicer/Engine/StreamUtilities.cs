@@ -42,10 +42,7 @@ namespace Rejuicer.Engine
 
         public static string ReadString(this Stream input)
         {
-            using (var streamReader = new StreamReader(input))
-            {
-                return streamReader.ReadToEnd();
-            }
+            return new StreamReader(input).ReadToEnd();
         }
     }
 }

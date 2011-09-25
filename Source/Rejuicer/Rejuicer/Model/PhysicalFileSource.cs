@@ -13,12 +13,11 @@ namespace Rejuicer.Model
     {
         private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
 
-        public PhysicalFileSource(ResourceType resourceType, Mode mode, string virtualPath, string physicalPath)
+        public PhysicalFileSource(ResourceType resourceType, string virtualPath, string physicalPath)
         {
             VirtualPath = virtualPath;
             ResourceType = resourceType;
             PhysicalPath = physicalPath;
-            Mode = mode;
             _dependencies = new List<IContentSource>();
         }
 
@@ -27,10 +26,22 @@ namespace Rejuicer.Model
 
         public IEnumerable<FileInfo> GetDependencies()
         {
+            return GetDependencies(null);
+        }
+
+        public IEnumerable<FileInfo> GetDependencies(ResourceType? resourceType)
+        {
             _lock.EnterReadLock();
             try
             {
-                return _dependencies.SelectMany(x => x.GetDependencies()).Union(new[] {new FileInfo(PhysicalPath)});
+                var dependencies = _dependencies.SelectMany(x => x.GetDependencies(resourceType));
+                
+                if (resourceType.HasValue && ResourceType == resourceType.Value)
+                {
+                    dependencies = dependencies.Union(new[] { new FileInfo(PhysicalPath) });
+                }
+
+                return dependencies;
             }
             finally
             {

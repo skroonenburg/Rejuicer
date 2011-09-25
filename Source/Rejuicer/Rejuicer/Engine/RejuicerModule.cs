@@ -28,7 +28,7 @@ namespace Rejuicer
             var request = HttpContext.Current.Request;
             var requested = request.Url;
 
-            if (RejuicerEngine.HasConfigurationFor(requested))
+            if (RejuicerEngine.HasConfigurationFor(requested) || RejuicerEngine.PassThroughDebuggingFor(requested))
             {
                 var result = RejuicerEngine.GetContentFor(requested);
 

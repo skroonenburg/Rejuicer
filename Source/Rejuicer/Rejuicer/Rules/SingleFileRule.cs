@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Rejuicer.Engine;
 
 namespace Rejuicer.Model
 {
@@ -26,7 +27,7 @@ namespace Rejuicer.Model
 
         public IOrderedEnumerable<IContentSource> Evaluate(ResourceType resourceType)
         {
-            return new IContentSource[] { new PhysicalFileSource(resourceType, Mode, VirtualPath, VirtualPathResolver.ResolveVirtualPathToFile(VirtualPath).FullName) }.OrderBy(x => x);
+            return new IContentSource[] { PhysicalFileRegister.For(VirtualPathResolver.ResolveVirtualPathToFile(VirtualPath), resourceType, Mode) }.OrderBy(x => x);
         }
     }
 }

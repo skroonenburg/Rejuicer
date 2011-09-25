@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Rejuicer.Engine;
 
 namespace Rejuicer.Model
 {
@@ -39,7 +40,7 @@ namespace Rejuicer.Model
 
             return Directory.EnumerateFiles(physicalPath.FullName, SearchPattern ?? "*", IsRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                         .Select(f => new FileInfo(f))
-                        .Select(file => new PhysicalFileSource(resourceType, Mode, VirtualPathResolver.GetVirtualPathFor(file), file.FullName))
+                        .Select(file => PhysicalFileRegister.For(file, resourceType, Mode))
                         .OfType<IContentSource>()
                         .OrderBy(x => new FileInfo(((PhysicalFileSource)x).PhysicalPath).Name);
         }

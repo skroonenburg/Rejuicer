@@ -19,6 +19,7 @@ namespace Rejuicer
         internal static Dictionary<string, RejuicerConfigurationSource> _configurations = new Dictionary<string,RejuicerConfigurationSource>();
         private static ICacheProvider cacheProvider = new CacheProvider();
         private static bool _configurationContainsPlaceholder = false;
+        internal static IVirtualPathResolver _virtualPathResolver = new VirtualPathResolver();
 
         internal static void AddConfiguration(RejuicerConfigurationSource config)
         {
@@ -71,6 +72,7 @@ namespace Rejuicer
 
         internal static IEnumerable<string> GetVirtualPathsFor(string requestedFilename)
         {
+            // Get all dependencies of the matching content type of the parent.
             return FileResolver.VirtualPathsFor(GetConfigFor(requestedFilename));
         }
 
@@ -79,16 +81,30 @@ namespace Rejuicer
             return GetConfigFor(requestedFilename).GetDependencies();
         }
 
+        private static PhysicalFileSource GetPhysicalFileFor(string requestedFilename)
+        {
+            requestedFilename = MakeVirtualPathFromRequestUrl(requestedFilename);
+
+            return PhysicalFileRegister.For(requestedFilename);
+        }
+
+        public static bool PassThroughDebuggingFor(Uri requestedUrl)
+        {
+            return IsPassThroughEnabled && GetPhysicalFileFor(VirtualPathUtility.ToAppRelative(requestedUrl.AbsolutePath)) != null;
+        }
+
+        private static string MakeVirtualPathFromRequestUrl(string requestUrl)
+        {
+            return !requestUrl.StartsWith("~") ? string.Format("~{0}", requestUrl) : requestUrl;
+        }
+
         internal static RejuicerConfigurationSource GetConfigFor(string requestedFilename)
         {
             try
             {
                 _configurationLock.EnterReadLock();
 
-                if (!requestedFilename.StartsWith("~"))
-                {
-                    requestedFilename = string.Format("~{0}", requestedFilename);
-                }
+                requestedFilename = MakeVirtualPathFromRequestUrl(requestedFilename);
 
                 if (!_configurationContainsPlaceholder)
                 {
@@ -148,7 +164,15 @@ namespace Rejuicer
 
         public static OutputContent GetContentFor(string requestedFilename)
         {
-            return GetConfigFor(requestedFilename).GetContent(cacheProvider);
+            return ((IContentSource)GetConfigFor(requestedFilename) ?? (IsPassThroughEnabled ? GetPhysicalFileFor(requestedFilename) : null)).GetContent(cacheProvider);
+        }
+
+        public static bool IsPassThroughEnabled
+        {
+            get
+            {
+                return HttpContext.Current.IsDebuggingEnabled && (Configuration == null || ((!Configuration.PreventPassThroughOnDebug.HasValue || !Configuration.PreventPassThroughOnDebug.Value)));
+            }
         }
     }
 }
