@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -14,6 +15,9 @@ namespace Rejuicer_test
         public void Setup()
         {
             RejuicerEngine._configurations.Clear();
+            
+            WildcardMatchFileRule.VirtualPathResolver = new StubVirtualPathResolver();
+            SingleFileRule.VirtualPathResolver = new StubVirtualPathResolver();
         }
 
         private RejuicerConfigurationSource GetModelFor(object configurer)
@@ -70,6 +74,34 @@ namespace Rejuicer_test
                     .FilesIn("~/Scripts/").Matching("*.js").Configure();
 
             Assert.AreEqual(1, RejuicerEngine._configurations.Count);
+        }
+
+        public class StubVirtualPathResolver : IVirtualPathResolver
+        {
+            public DirectoryInfo ResolveVirtualPathToDirectory(string virtualPath)
+            {
+                return null;
+            }
+
+            public FileInfo ResolveVirtualPathToFile(string virtualPath)
+            {
+                return null;
+            }
+
+            public string ResolveVirtualPath(string virtualPath)
+            {
+                return null;
+            }
+
+            public string GetRelativeUrl(string virtualPath)
+            {
+                return null;
+            }
+
+            public string GetVirtualPathFor(FileInfo file)
+            {
+                return null;
+            }
         }
     }
 }

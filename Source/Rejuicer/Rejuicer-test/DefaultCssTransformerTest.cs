@@ -15,7 +15,7 @@ namespace Rejuicer_test
     {
         private string TransformCss(string css, Func<string, string> replacement)
         {
-            return new DefaultCssTransformer(new StubVirtualPathResolver(replacement)).TransformFile(new PhysicalFileSource(ResourceType.Css, Mode.Minify, "~/test.css", "test.css"), css.AsStream()).ReadString();
+            return new DefaultCssTransformer(new StubVirtualPathResolver(replacement)).TransformFile(new PhysicalFileSource(ResourceType.Css, "~/test.css", "test.css", Mode.Minify), css.AsBytes()).ReadString();
         }
 
         [Test]

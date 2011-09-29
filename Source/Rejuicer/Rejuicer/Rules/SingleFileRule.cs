@@ -9,16 +9,24 @@ namespace Rejuicer.Model
     // A rule for including a single file. Immutable.
     internal sealed class SingleFileRule : IContentSourceRule
     {
-        public static IVirtualPathResolver VirtualPathResolver { get; private set; }
+        public static IVirtualPathResolver VirtualPathResolver { get; internal set; }
+
+        static SingleFileRule()
+        {
+            VirtualPathResolver = new VirtualPathResolver();
+        }
 
         public SingleFileRule(string virtualPath, Mode mode)
-            : this(virtualPath, mode, new VirtualPathResolver())
+            : this(virtualPath, mode, null)
         {}
 
         public SingleFileRule(string virtualPath, Mode mode, IVirtualPathResolver virtualPathResolver)
         {
             VirtualPath = virtualPath;
-            VirtualPathResolver = virtualPathResolver;
+            if (virtualPathResolver != null)
+            {
+                VirtualPathResolver = virtualPathResolver;
+            }
             Mode = mode;
         }
 

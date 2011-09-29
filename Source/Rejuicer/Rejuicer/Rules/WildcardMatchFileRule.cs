@@ -10,19 +10,29 @@ namespace Rejuicer.Model
     // A rule for including multiple files with a wildcard match. Immutable.
     internal sealed class WildcardMatchFileRule : IContentSourceRule
     {
-        public static IVirtualPathResolver VirtualPathResolver { get; private set; }
+        public static IVirtualPathResolver VirtualPathResolver { get; internal set; }
+
+        static WildcardMatchFileRule()
+        {
+            VirtualPathResolver = new VirtualPathResolver();
+        }
 
         public WildcardMatchFileRule(string folderVirtualPath, string searchPattern, bool recursive, Mode mode, IVirtualPathResolver virtualPathResolver)
         {
             FolderVirtualPath = folderVirtualPath;
             SearchPattern = searchPattern;
             IsRecursive = recursive;
-            VirtualPathResolver = virtualPathResolver;
+
+            if (virtualPathResolver != null)
+            {
+                VirtualPathResolver = virtualPathResolver;
+            }
+
             Mode = mode;
         }
 
         public WildcardMatchFileRule(string folderVirtualPath, string searchPattern, bool recursive, Mode mode)
-            : this(folderVirtualPath, searchPattern, recursive, mode, new VirtualPathResolver()) 
+            : this(folderVirtualPath, searchPattern, recursive, mode, null) 
         {
         }
 
