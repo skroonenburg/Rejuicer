@@ -32,8 +32,9 @@ namespace Rejuicer.Engine
             _cacheProvider = cacheProvider;
         }
 
-        public Stream TransformFile(PhysicalFileSource source, Stream inputContent)
+        public byte[] TransformFile(PhysicalFileSource source, byte[] inputContent)
         {
+            Log.WriteLine("Transforming CSS For '{0}'", source.VirtualPath);
             string stringValue = inputContent.ReadString();
 
             stringValue = Regex.Replace(stringValue, "url\\((?<quotation>['\"]?)(?<capturedUrl>[^\\)]*)", x =>
@@ -41,14 +42,22 @@ namespace Rejuicer.Engine
                                                                                   var url = x.Groups["capturedUrl"];
                                                                                   if (url != null)
                                                                                   {
-                                                                                      if (!url.Value.StartsWith("~"))
+                                                                                      var urlValue = url.Value.Trim();
+
+                                                                                      if (!urlValue.StartsWith("~"))
                                                                                       {
                                                                                           return x.Value;
                                                                                       }
 
                                                                                       var quotation = x.Groups["quotation"];
                                                                                       var quoteWrapper = quotation != null ? quotation.Value : "";
-                                                                                      var virtualPath = url.Value;
+
+                                                                                      if (urlValue.EndsWith(quoteWrapper))
+                                                                                      {
+                                                                                          urlValue = urlValue.Substring(0, urlValue.Length - quoteWrapper.Length);
+                                                                                      }
+
+                                                                                      var virtualPath = urlValue;
 
                                                                                       // look for a placeholder in the virtual path
                                                                                       if (virtualPath.Contains(RejuicerConfigurationSource.FilenameUniquePlaceholder))
@@ -65,16 +74,26 @@ namespace Rejuicer.Engine
 
                                                                                           // get the timestamp and write it out into the URL... 
                                                                                           var config = RejuicerEngine.GetConfigFor(virtualPath);
-                                                                                          // don't timestamp the URL in pass through mode
-                                                                                          virtualPath = RejuicerEngine.IsPassThroughEnabled ? config.GetNonTimestampedUrl(_cacheProvider) : config.GetTimestampedUrl(_cacheProvider);
 
-                                                                                          // Need to add a dependency of this CSS file to the now linked image.
-                                                                                          source.AddDependency(RejuicerEngine.GetConfigFor(url.Value));
+                                                                                          if (config != null)
+                                                                                          {
+                                                                                              // don't timestamp the URL in pass through mode
+                                                                                              virtualPath = RejuicerEngine.IsPassThroughEnabled ? config.GetNonTimestampedUrl(_cacheProvider) : config.GetTimestampedUrl(_cacheProvider);
+
+                                                                                              // Need to add a dependency of this CSS file to the now linked image.
+                                                                                              source.AddDependency(RejuicerEngine.GetConfigFor(urlValue));
+                                                                                          }
+                                                                                          else
+                                                                                          {
+                                                                                              // Could not configure rejuicer for this file. It may not exist,
+                                                                                              // so just return the url
+                                                                                              return url.Value;
+                                                                                          }
                                                                                       }
 
-                                                                                      var urlValue = _virtualPathResolver.GetRelativeUrl(virtualPath);
+                                                                                      var outputUrl = _virtualPathResolver.GetRelativeUrl(virtualPath);
 
-                                                                                      return string.Format("url({1}{0}", urlValue, quoteWrapper);
+                                                                                      return string.Format("url({1}{0}{1}", outputUrl, quoteWrapper);
                                                                                   }
 
                                                                                   return x.Value;
@@ -82,7 +101,7 @@ namespace Rejuicer.Engine
 
             
 
-            return stringValue.AsStream();
+            return stringValue.AsBytes();
         }
     }
 }

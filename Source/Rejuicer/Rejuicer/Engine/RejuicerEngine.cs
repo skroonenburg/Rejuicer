@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.Web.Caching;
@@ -26,6 +27,13 @@ namespace Rejuicer
             try
             {
                 _configurationLock.EnterWriteLock();
+
+                if (_configurations.ContainsKey(config.RequestFor))
+                {
+                    throw new InvalidOperationException("There is already a configuration for this URL.");
+                }
+
+                Log.WriteLine("Creating configuration for request URL '{0}'", config.RequestFor);
 
                 if (config.ContainsPlaceHolder)
                 {
@@ -121,21 +129,15 @@ namespace Rejuicer
                 }
 
                 // There are placeholders in the configuration, so iterate over each and look for a match
+                // remove any placeholders from the incoming requested filenames
+                var matchUrl = requestedFilename.Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder,
+                                          RejuicerConfigurationSource.GetTimeStampString(DateTime.Now));
+
                 foreach (var pair in _configurations)
                 {
-                    var index = pair.Value.RequestFor.IndexOf(RejuicerConfigurationSource.FilenameUniquePlaceholder);
+                    var regexp = pair.Value.RequestFor.Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, "[0-9]+");
 
-                    if (index >= 0)
-                    {
-                        if (requestedFilename.StartsWith(pair.Value.RequestFor.Substring(0, index))
-                                    && requestedFilename.EndsWith(pair.Value.RequestFor.Substring(index + RejuicerConfigurationSource.
-                                                                                                    FilenameUniquePlaceholder
-                                                                                                    .Length)))
-                        {
-                            return pair.Value;
-                        }
-                    }
-                    else if (pair.Value.RequestFor.Equals(requestedFilename))
+                    if (Regex.IsMatch(matchUrl, regexp))
                     {
                         return pair.Value;
                     }
@@ -164,7 +166,20 @@ namespace Rejuicer
 
         public static OutputContent GetContentFor(string requestedFilename)
         {
-            return ((IContentSource)GetConfigFor(requestedFilename) ?? (IsPassThroughEnabled ? GetPhysicalFileFor(requestedFilename) : null)).GetContent(cacheProvider);
+            var config = GetConfigFor(requestedFilename);
+
+            if (config == null)
+            {
+                if (IsPassThroughEnabled)
+                {
+                    // Get the non-minified, but transformed content
+                    return GetPhysicalFileFor(requestedFilename).GetContent(cacheProvider, Mode.Combine);
+                }
+
+                return null;
+            }
+
+            return config.GetContent(cacheProvider);
         }
 
         public static bool IsPassThroughEnabled

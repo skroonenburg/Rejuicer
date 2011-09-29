@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -13,8 +14,9 @@ namespace Rejuicer.Model
     {
         private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
 
-        public PhysicalFileSource(ResourceType resourceType, string virtualPath, string physicalPath)
+        public PhysicalFileSource(ResourceType resourceType, string virtualPath, string physicalPath, Mode mode)
         {
+            Mode = mode;
             VirtualPath = virtualPath;
             ResourceType = resourceType;
             PhysicalPath = physicalPath;
@@ -35,8 +37,8 @@ namespace Rejuicer.Model
             try
             {
                 var dependencies = _dependencies.SelectMany(x => x.GetDependencies(resourceType));
-                
-                if (resourceType.HasValue && ResourceType == resourceType.Value)
+
+                if (!resourceType.HasValue || (resourceType.HasValue && ResourceType == resourceType.Value))
                 {
                     dependencies = dependencies.Union(new[] { new FileInfo(PhysicalPath) });
                 }
@@ -51,45 +53,82 @@ namespace Rejuicer.Model
 
         public OutputContent GetContent(ICacheProvider cacheProvider)
         {
+            return GetContent(cacheProvider, Mode);
+        }
+
+        public OutputContent GetContent(ICacheProvider cacheProvider, Mode mode)
+        {
             var upgraded = false;
             _lock.EnterUpgradeableReadLock();
 
             try
             {
                 // check the cache first
-                var cachedValue = cacheProvider.Get<OutputContent>(GetCacheKeyFor(VirtualPath));
+                var returnValue = cacheProvider.Get<OutputContent>(GetCacheKeyFor(VirtualPath, mode));
 
-                if (cachedValue == null)
+                if (returnValue == null)
                 {
+                    Log.WriteLine("Generating Content For '{0}'", VirtualPath);
+
                     _lock.EnterWriteLock();
                     upgraded = true;
 
-                    Stream rejuicedValue = null;
+                    byte[] rejuicedValue = null;
 
                     var file = new FileInfo(PhysicalPath);
 
                     // clear existing dependencies
                     _dependencies.Clear();
 
-                    using (var fileStream = file.OpenRead())
+                    var minificationProvider = MinificationRegistry.Get(ResourceType);
+
+                    var notFound = false;
+                    try
                     {
-                        rejuicedValue = FileTransformationPipeline.TransformInputFile(this, fileStream);
+                        var fileBytes = File.ReadAllBytes(PhysicalPath);
+                        rejuicedValue = FileTransformationPipeline.TransformInputFile(this, fileBytes);
                     }
+                    catch (IOException)
+                    {
+                    }
+                    
+                    // Combined value
+                    var combinedValue = new OutputContent
+                    {
+                        Content = rejuicedValue,
+                        AllowClientCaching = false,
+                        ContentType =
+                            ResourceType == ResourceType.Css ? "text/css" : "text/javascript",
+                        LastModifiedDate = file.LastWriteTimeUtc
+                    };
 
-                    // Combine all of the files into one string
-                    cachedValue = new OutputContent
-                                      {
-                                          Content = rejuicedValue,
-                                          AllowClientCaching = false,
-                                          ContentType =
-                                              ResourceType == ResourceType.Css ? "text/css" : "text/javascript",
-                                          LastModifiedDate = file.LastWriteTimeUtc
-                                      };
+                    var dependencies = GetDependencies();
+                    cacheProvider.Add(GetCacheKeyFor(VirtualPath, Mode.Combine), combinedValue, dependencies);
+                    returnValue = combinedValue;
 
-                    cacheProvider.Add(GetCacheKeyFor(VirtualPath), cachedValue, GetDependencies());
+                    if (Mode == Mode.Minify && !notFound)
+                    {
+                        Log.WriteLine("Minifying Content For '{0}'", VirtualPath);
+
+                        // Minified value
+                        var minifiedValue = new OutputContent
+                                                {
+                                                    Content = minificationProvider.Minify(rejuicedValue),
+                                                    AllowClientCaching = false,
+                                                    ContentType =
+                                                        ResourceType == ResourceType.Css
+                                                            ? "text/css"
+                                                            : "text/javascript",
+                                                    LastModifiedDate = file.LastWriteTimeUtc
+                                                };
+
+                        cacheProvider.Add(GetCacheKeyFor(VirtualPath, mode), minifiedValue, dependencies);
+
+                        returnValue = minifiedValue;
+                    }
                 }
 
-                return cachedValue;
+                return returnValue;
             }
             finally
             {
@@ -102,9 +141,9 @@ namespace Rejuicer.Model
             }
         }
 
-        private static string GetCacheKeyFor(string filename)
+        private static string GetCacheKeyFor(string filename, Mode mode)
         {
-            return string.Format("rejuicer-filesource-{0}", filename);
+            return string.Format("rejuicer-{1}-filesource-{0}", filename, mode == Mode.Combine ? "combined" : "minified");
         }
             
         public string VirtualPath { get; private set; }

@@ -12,7 +12,24 @@ namespace Rejuicer.Engine
     {
         public override string MinifyStringValue(string data)
         {
-            return Yahoo.Yui.Compressor.CssCompressor.Compress(data);
+            var currentCulture = Thread.CurrentThread.CurrentCulture;
+
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
+                if (string.IsNullOrEmpty(data))
+                {
+                    return "";
+                }
+
+                return Yahoo.Yui.Compressor.JavaScriptCompressor.Compress(data);
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = currentCulture;
+            }
+            
         }
 
         public override string GetContentType(string filename)

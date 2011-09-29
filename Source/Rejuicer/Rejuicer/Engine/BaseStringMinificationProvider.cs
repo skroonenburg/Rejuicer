@@ -12,7 +12,7 @@ namespace Rejuicer.Engine
     {
         public abstract string MinifyStringValue(string data);
 
-        public Stream Minify(Stream data)
+        public byte[] Minify(byte[] data)
         {
             // Read the data into a string
             var stringValue = data.ReadString();
@@ -24,7 +24,7 @@ namespace Rejuicer.Engine
 
                 var minifiedValue = MinifyStringValue(stringValue);
 
-                return minifiedValue.AsStream();
+                return minifiedValue.AsBytes();
             }
             finally
             {
@@ -32,21 +32,16 @@ namespace Rejuicer.Engine
             }
         }
 
-        public Stream Combine(IEnumerable<Stream> data)
+        public byte[] Combine(IEnumerable<byte[]> data)
         {
-            var combinedStream = new MemoryStream();
-
-            var streamWriter = new StreamWriter(combinedStream);
+            var sb = new StringBuilder();
             
             foreach (var value in data)
             {
-                streamWriter.Write(value.ReadString());
-                streamWriter.WriteLine();
+                sb.Append(value.ReadString());
             }
 
-            streamWriter.Flush();
-
-            return combinedStream;
+            return sb.ToString().AsBytes();
         }
 
 

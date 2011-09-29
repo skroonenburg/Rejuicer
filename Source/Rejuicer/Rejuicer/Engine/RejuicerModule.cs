@@ -44,28 +44,22 @@ namespace Rejuicer
                 if (result.AllowClientCaching)
                 {
                     response.Expires = 525600; // Browser cache expires after one year
-                    response.CacheControl = "public"; // Any entity can cache this - be it the browser or a proxy server
+                    response.CacheControl = "public";
+                        // Any entity can cache this - be it the browser or a proxy server
                 }
                 else
                 {
                     response.CacheControl = "no-cache";
                 }
 
-                if (HttpRuntime.UsingIntegratedPipeline && result.LastModifiedDate != null && result.LastModifiedDate.Equals(request.Headers["If-Modified-Since"]))
+                if (HttpRuntime.UsingIntegratedPipeline && 
+                    result.LastModifiedDate.Equals(request.Headers["If-Modified-Since"]))
                 {
                     response.StatusCode = 304;
                 }
                 else
                 {
-                    var buffer = new byte[1024];
-                    result.Content.Seek(0, SeekOrigin.Begin);
-
-                    while (result.Content.Read(buffer, 0, buffer.Length) > 0)
-                    {
-                        response.BinaryWrite(buffer);
-                    }
-                    
-                    result.Content.Seek(0, SeekOrigin.Begin);
+                    response.BinaryWrite(result.Content);
                 }
 
                 response.Flush();

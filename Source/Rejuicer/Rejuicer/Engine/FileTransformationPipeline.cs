@@ -9,22 +9,16 @@ namespace Rejuicer.Engine
 {
     public static class FileTransformationPipeline
     {
-        public static Stream TransformInputFile(PhysicalFileSource source, Stream inputContent)
+        public static byte[] TransformInputFile(PhysicalFileSource source, byte[] inputContent)
         {
             var transformations = FileTransformerRegistry.GetTransformationsFor(source.ResourceType);
 
             if (transformations.Count() == 0)
             {
-                return inputContent.Clone();
+                return inputContent.CloneBytes();
             }
 
-            foreach (var transformation in transformations)
-            {
-                inputContent = transformation.TransformFile(source, inputContent);
-                inputContent.Seek(0, SeekOrigin.Begin);
-            }
-
-            return inputContent;
+            return transformations.Aggregate(inputContent, (current, transformation) => transformation.TransformFile(source, current));
         }
     }
 }

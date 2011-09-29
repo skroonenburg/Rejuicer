@@ -27,7 +27,14 @@ namespace Rejuicer.Model
 
         public IOrderedEnumerable<IContentSource> Evaluate(ResourceType resourceType)
         {
-            return new IContentSource[] { PhysicalFileRegister.For(VirtualPathResolver.ResolveVirtualPathToFile(VirtualPath), resourceType, Mode) }.OrderBy(x => x);
+            var file = VirtualPathResolver.ResolveVirtualPathToFile(VirtualPath);
+
+            if (file == null)
+            {
+                return Enumerable.Empty<IContentSource>().OrderBy(x => x);
+            }
+
+            return new IContentSource[] { PhysicalFileRegister.For(file, resourceType, Mode) }.OrderBy(x => x);
         }
     }
 }

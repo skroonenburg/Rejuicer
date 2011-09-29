@@ -62,6 +62,7 @@
     <Compile Include="Engine\BaseStringMinificationProvider.cs" />
     <Compile Include="Engine\CacheProvider.cs" />
     <Compile Include="Engine\ImageMinificationProvider.cs" />
+    <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\PhysicalFileRegister.cs" />
     <Compile Include="Model\IPhysicalFileDependency.cs" />
     <Compile Include="Engine\JsMinificationProvider.cs" />

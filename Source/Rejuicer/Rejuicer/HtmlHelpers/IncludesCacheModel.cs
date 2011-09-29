@@ -14,7 +14,7 @@ namespace Rejuicer.HtmlHelpers
 
         public IHtmlString RenderHtml()
         {
-            return new HtmlString(IncludesHtml.ToString().Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, (Timestamp - DateTime.MinValue).Ticks.ToString()));
+            return new HtmlString(IncludesHtml.ToString().Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, RejuicerConfigurationSource.GetTimeStampString(Timestamp)));
         }
     }
 }

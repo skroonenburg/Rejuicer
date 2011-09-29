@@ -14,7 +14,7 @@ namespace Rejuicer.Engine
             LastModifiedDate = DateTime.Now;
         }
 
-        public Stream Content { get; set; }
+        public byte[] Content { get; set; }
         public string ContentType { get; set; }
         public bool AllowClientCaching { get; set; }
         public DateTime LastModifiedDate { get; set; }

@@ -12,6 +12,11 @@ namespace Rejuicer.Engine
     {
         public override string MinifyStringValue(string data)
         {
+            if (string.IsNullOrEmpty(data))
+            {
+                return "";
+            }
+
             return Yahoo.Yui.Compressor.CssCompressor.Compress(data);
         }
 

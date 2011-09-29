@@ -49,7 +49,10 @@ namespace Rejuicer
         public void Configure()
         {
             // Pass this configuration to the compactor, so that it is remembered.
-            RejuicerEngine.AddConfiguration(_config);
+            if (_config.Count > 0)
+            {
+                RejuicerEngine.AddConfiguration(_config);
+            }
         }
 
         public ICompactorContextSelector Always

@@ -9,8 +9,8 @@ namespace Rejuicer.Engine
     // Provides minification of a stream of data
     public interface IMinificationProvider
     {
-        Stream Minify(Stream data);
-        Stream Combine(IEnumerable<Stream> data);
+        byte[] Minify(byte[] data);
+        byte[] Combine(IEnumerable<byte[]> data);
         string GetContentType(string filename);
     }
 }

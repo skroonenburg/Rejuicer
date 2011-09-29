@@ -9,6 +9,6 @@ namespace Rejuicer.Engine
 {
     public interface IFileTransformer
     {
-        Stream TransformFile(PhysicalFileSource source, Stream file);
+        byte[] TransformFile(PhysicalFileSource source, byte[] file);
     }
 }

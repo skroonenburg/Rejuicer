@@ -10,33 +10,15 @@ namespace Rejuicer.Engine
 {
     public class ImageMinificationProvider : IMinificationProvider
     {
-        public Stream Minify(Stream data)
+        public byte[] Minify(byte[] data)
         {
             // Perform no minification on image data
             return data;
         }
 
-        public Stream Combine(IEnumerable<Stream> data)
+        public byte[] Combine(IEnumerable<byte[]> data)
         {
-            var output = new MemoryStream((int)data.Sum(x => x.Length));
-
-            var buffer = new byte[1024];
-            foreach (var value in data)
-            {
-                value.Seek(0, SeekOrigin.Begin);
-
-                int read = 0;
-                while ((read = value.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    output.Write(buffer, 0, read);
-                }
-
-                output.Flush();
-            }
-
-            output.Seek(0, SeekOrigin.Begin);
-
-            return output;
+            return data.FirstOrDefault();
         }
 
         public string GetContentType(string filename)
@@ -45,7 +27,11 @@ namespace Rejuicer.Engine
             {
                 case "PNG":
                     return "image/png";
-
+                case "GIF":
+                    return "image/gif";
+                case "JPG":
+                case "JPEG":
+                    return "image/jpg";
                 default:
                     return "image";
             }

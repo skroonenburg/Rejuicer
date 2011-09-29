@@ -37,7 +37,8 @@ namespace Rejuicer.Engine
             {
                 physicalFileSource = new PhysicalFileSource(resourceType, 
                                                             virtualPathFor,
-                                                            file.FullName);
+                                                            file.FullName,
+                                                            mode);
 
                 Set(physicalFileSource);
             }
