@@ -7,7 +7,7 @@ using Rejuicer;
 
 namespace Rejuicer_test
 {
-    [TestFixture]
+    [TestFixture(Ignore = true)]
     public class RejuicerEngineTests
     {
         [SetUp]

@@ -9,6 +9,7 @@ using Rejuicer.Model;
 
 namespace Rejuicer_test
 {
+    [TestFixture(Ignore = true)]
     public class FluentConfigurerTests
     {
         [SetUp]
