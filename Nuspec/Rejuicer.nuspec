@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Rejuicer</id>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
     <authors>Sam Kroonenburg</authors>
     <description>Minify your CSS/JS. Simple fluent configuration. Wildcard file matching. Works on Azure. Easy script debugging.</description>
     <language>en-US</language>
@@ -19,6 +19,6 @@
     <file src="..\..\NET40\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\40\Rejuicer.dll" />
     <file src="..\..\NET35\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\35\Rejuicer.dll" />
     <file src="web.config.transform" target="Content\web.config.transform" />
-    <file src="Content\App_Start\Rejuicer.cs.pp" target="Content\App_Start\Rejuicer.cs" />
+    <file src="Content\App_Start\Rejuicer.cs.pp" target="Content\App_Start" />
   </files>
 </package>

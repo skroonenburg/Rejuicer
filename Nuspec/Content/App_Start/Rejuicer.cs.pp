@@ -1,4 +1,4 @@
-using Rejuicer.Nuget;
+using Rejuicer;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof($rootnamespace$.App_Start.RejuicerContent), "Configure")]
 namespace $rootnamespace$.App_Start
