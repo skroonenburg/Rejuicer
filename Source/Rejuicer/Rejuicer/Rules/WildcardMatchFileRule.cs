@@ -48,7 +48,7 @@ namespace Rejuicer.Model
             if (physicalPath == null)
                 return Enumerable.Empty<IContentSource>().OrderBy(x => x);
 
-            return Directory.EnumerateFiles(physicalPath.FullName, SearchPattern ?? "*", IsRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+            return Directory.GetFiles(physicalPath.FullName, SearchPattern ?? "*", IsRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                         .Select(f => new FileInfo(f))
                         .Select(file => PhysicalFileRegister.For(file, resourceType, Mode))
                         .OfType<IContentSource>()

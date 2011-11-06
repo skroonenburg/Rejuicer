@@ -9,12 +9,12 @@ namespace Rejuicer.HtmlHelpers
 {
     public class IncludesCacheModel
     {
-        public IHtmlString IncludesHtml { get; set; }
+        public string IncludesHtml { get; set; }
         public DateTime Timestamp { get; set; }
 
-        public IHtmlString RenderHtml()
+        public string RenderHtml()
         {
-            return new HtmlString(IncludesHtml.ToString().Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, RejuicerConfigurationSource.GetTimeStampString(Timestamp)));
+            return IncludesHtml.Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, RejuicerConfigurationSource.GetTimeStampString(Timestamp));
         }
     }
 }
