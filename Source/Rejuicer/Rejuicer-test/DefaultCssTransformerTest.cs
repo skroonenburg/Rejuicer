@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using Rejuicer;
 using Rejuicer.Engine;
+using Rejuicer.Engine.Transformers;
 using Rejuicer.Model;
 
 namespace Rejuicer_test
