@@ -14,22 +14,6 @@ namespace WebFormsDemo
         void Application_Start(object sender, EventArgs e)
         {
             // Code that runs on application startup
-            ConfigureRejuicer();
-        }
-
-        public static void ConfigureRejuicer()
-        {
-            OnRequest.ForJs("~/Combined-{0}.js")
-                     .Compact
-                     .FilesIn("~/Scripts/")
-                       .Matching("*.js")
-                     .Configure();
-
-            OnRequest.ForCss("~/Combined.css")
-                     .Compact
-                     .FilesIn("~/Styles/")
-                         .Matching("*.css")
-                     .Configure();
         }
 
         void Application_End(object sender, EventArgs e)

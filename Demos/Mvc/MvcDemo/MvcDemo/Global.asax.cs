@@ -24,33 +24,11 @@ namespace MvcDemo
 
         }
 
-        public static void ConfigureRejuicer()
-        {
-            /*OnRequest.ForJs("~/Combined-{0}.js")
-                     .Compact
-                     .FilesIn("~/Scripts/")
-                       .Matching("*.js")
-                     .FilesIn("~/Scripts/")
-                       .Matching("*.coffee")
-                     .Configure();
-
-            OnRequest.ForCss("~/Combined.css")
-                     .Compact
-                     .File("~/Content/Site.css")
-                     .Configure();
-
-            OnRequest.ForImage("~/CachedImage-{0}.png")
-                    .Combine
-                    .File("~/Content/transformedUrlImage.png")
-                    .Configure();*/
-        }
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
-            ConfigureRejuicer();
         }
     }
 }
