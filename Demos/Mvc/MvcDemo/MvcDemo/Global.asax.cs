@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Rejuicer;
 
 namespace MvcDemo
 {
@@ -27,10 +26,12 @@ namespace MvcDemo
 
         public static void ConfigureRejuicer()
         {
-            OnRequest.ForJs("~/Combined-{0}.js")
+            /*OnRequest.ForJs("~/Combined-{0}.js")
                      .Compact
                      .FilesIn("~/Scripts/")
-                       .Matching("jquery-*.js")
+                       .Matching("*.js")
+                     .FilesIn("~/Scripts/")
+                       .Matching("*.coffee")
                      .Configure();
 
             OnRequest.ForCss("~/Combined.css")
@@ -41,7 +42,7 @@ namespace MvcDemo
             OnRequest.ForImage("~/CachedImage-{0}.png")
                     .Combine
                     .File("~/Content/transformedUrlImage.png")
-                    .Configure();
+                    .Configure();*/
         }
 
         protected void Application_Start()

@@ -39,8 +39,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CoffeeSharp">
+      <HintPath>..\Lib\CoffeeSharp.dll</HintPath>
+    </Reference>
     <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL">
       <HintPath>..\packages\YUICompressor.NET.1.5.0.0\lib\NET35\EcmaScript.NET.modified.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic">
+      <HintPath>..\Lib\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -64,10 +70,11 @@
     <Compile Include="Engine\ImageMinificationProvider.cs" />
     <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\PhysicalFileRegister.cs" />
+    <Compile Include="Engine\Transformers\CoffeeScriptJsTransformer.cs" />
     <Compile Include="Model\IPhysicalFileDependency.cs" />
-    <Compile Include="Engine\JsMinificationProvider.cs" />
-    <Compile Include="Engine\CssMinificationProvider.cs" />
-    <Compile Include="Engine\DefaultCssTransformer.cs" />
+    <Compile Include="Engine\MinificationProviders\JsMinificationProvider.cs" />
+    <Compile Include="Engine\MinificationProviders\CssMinificationProvider.cs" />
+    <Compile Include="Engine\Transformers\DefaultCssTransformer.cs" />
     <Compile Include="Engine\FileTransformationPipeline.cs" />
     <Compile Include="Engine\FileTransformerRegistry.cs" />
     <Compile Include="Engine\ICacheProvider.cs" />
@@ -75,7 +82,7 @@
     <Compile Include="Engine\IMinificationProvider.cs" />
     <Compile Include="Engine\MinificationRegistry.cs" />
     <Compile Include="Engine\OutputContent.cs" />
-    <Compile Include="Engine\StreamUtilities.cs" />
+    <Compile Include="Engine\ByteUtilities.cs" />
     <Compile Include="HtmlHelpers\IncludesCacheModel.cs" />
     <Compile Include="HtmlHelpers\Rejuicer.cs" />
     <Compile Include="Model\IContentSource.cs" />

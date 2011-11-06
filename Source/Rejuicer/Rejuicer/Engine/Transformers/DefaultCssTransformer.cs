@@ -67,7 +67,7 @@ namespace Rejuicer.Engine
                                                                                           {
                                                                                               // Create a configuration for this file
                                                                                               OnRequest.ForImage(virtualPath)
-                                                                                                  .Combine
+                                                                                                  .Compact
                                                                                                   .File(virtualPath.Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, ""))
                                                                                                   .Configure();
                                                                                           }

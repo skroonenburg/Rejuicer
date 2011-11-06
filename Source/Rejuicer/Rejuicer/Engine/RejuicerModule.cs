@@ -53,7 +53,7 @@ namespace Rejuicer
                 }
 
                 if (HttpRuntime.UsingIntegratedPipeline && 
-                    result.LastModifiedDate.Equals(request.Headers["If-Modified-Since"]))
+                    result.LastModifiedDate.ToString().Equals(request.Headers["If-Modified-Since"]))
                 {
                     response.StatusCode = 304;
                 }

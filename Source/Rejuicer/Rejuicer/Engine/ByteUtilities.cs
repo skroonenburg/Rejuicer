@@ -6,9 +6,8 @@ using System.Text;
 
 namespace Rejuicer.Engine
 {
-    public static class StreamUtilities
+    public static class ByteUtilities
     {
-
         public static byte[] CloneBytes(this byte[] input)
         {
             return (byte[])input.Clone();
