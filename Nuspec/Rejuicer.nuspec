@@ -18,6 +18,10 @@
   <files>
     <file src="..\..\NET40\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\40\Rejuicer.dll" />
     <file src="..\..\NET35\Source\Rejuicer\Rejuicer\bin\Release\Rejuicer.dll" target="lib\35\Rejuicer.dll" />
+    <file src="..\..\NET40\Source\Rejuicer\Rejuicer\bin\Release\CoffeeSharp.dll" target="lib\40\CoffeeSharp.dll" />
+    <file src="..\..\NET35\Source\Rejuicer\Rejuicer\bin\Release\CoffeeSharp.dll" target="lib\35\CoffeeSharp.dll" />
+    <file src="..\..\NET40\Source\Rejuicer\Rejuicer\bin\Release\Jurassic.dll" target="lib\40\Jurassic.dll" />
+    <file src="..\..\NET35\Source\Rejuicer\Rejuicer\bin\Release\Jurassic.dll" target="lib\35\Jurassic.dll" />
     <file src="web.config.transform" target="Content\web.config.transform" />
     <file src="Content\App_Start\Rejuicer.cs.pp" target="Content\App_Start" />
   </files>
