@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Rejuicer.Engine.Transformers;
 using Rejuicer.Model;
 
 namespace Rejuicer.Engine
@@ -12,8 +13,8 @@ namespace Rejuicer.Engine
 
         static FileTransformerRegistry()
         {
-            _transformerRegistrations.Add(ResourceType.Css, new List<IFileTransformer>(new DefaultCssTransformer[] { new DefaultCssTransformer()}));
-            _transformerRegistrations.Add(ResourceType.Js, new List<IFileTransformer>());
+            _transformerRegistrations.Add(ResourceType.Css, new List<IFileTransformer>(new IFileTransformer[] { new DefaultCssTransformer()}));
+            _transformerRegistrations.Add(ResourceType.Js, new List<IFileTransformer>(new IFileTransformer[] { new CoffeeScriptJsTransformer() }));
         }
 
         public static void Register(ResourceType resourceType, IFileTransformer fileTransformer)

@@ -25,6 +25,10 @@ namespace Rejuicer.Engine
 
                 return Yahoo.Yui.Compressor.JavaScriptCompressor.Compress(data);
             }
+            catch (InvalidOperationException e)
+            {
+                throw new InvalidOperationException("Encountered exception trying minify invalid JavaScript.", e);
+            }
             finally
             {
                 Thread.CurrentThread.CurrentCulture = currentCulture;

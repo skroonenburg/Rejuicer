@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Rejuicer</id>
-    <version>1.2.4</version>
+    <version>1.2.5</version>
     <authors>Sam Kroonenburg</authors>
     <description>Minify your CSS/JS. Simple fluent configuration. Wildcard file matching. Works on Azure. Easy script debugging.</description>
     <language>en-US</language>
