@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Rejuicer.Engine
+namespace Rejuicer.Engine.MinificationProviders
 {
     public class JsMinificationProvider : BaseStringMinificationProvider
     {

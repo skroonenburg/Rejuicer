@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Rejuicer.Model;
 
-namespace Rejuicer.Engine
+namespace Rejuicer.Engine.Transformers
 {
     public class DefaultCssTransformer : IFileTransformer
     {

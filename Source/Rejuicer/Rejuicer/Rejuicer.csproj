@@ -70,7 +70,6 @@
     <Compile Include="Engine\ImageMinificationProvider.cs" />
     <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\PhysicalFileRegister.cs" />
-    <Compile Include="Engine\Transformers\CoffeeScriptJsTransformer.cs" />
     <Compile Include="Model\IPhysicalFileDependency.cs" />
     <Compile Include="Engine\MinificationProviders\JsMinificationProvider.cs" />
     <Compile Include="Engine\MinificationProviders\CssMinificationProvider.cs" />

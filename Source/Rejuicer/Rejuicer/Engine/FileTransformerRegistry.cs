@@ -14,7 +14,7 @@ namespace Rejuicer.Engine
         static FileTransformerRegistry()
         {
             _transformerRegistrations.Add(ResourceType.Css, new List<IFileTransformer>(new IFileTransformer[] { new DefaultCssTransformer()}));
-            _transformerRegistrations.Add(ResourceType.Js, new List<IFileTransformer>(new IFileTransformer[] { new CoffeeScriptJsTransformer() }));
+            _transformerRegistrations.Add(ResourceType.Js, new List<IFileTransformer>());
         }
 
         public static void Register(ResourceType resourceType, IFileTransformer fileTransformer)
