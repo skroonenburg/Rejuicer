@@ -39,6 +39,7 @@ namespace Rejuicer.Engine
             foreach (var value in data)
             {
                 sb.Append(value.ReadString());
+                sb.AppendLine();
             }
 
             return sb.ToString().AsBytes();

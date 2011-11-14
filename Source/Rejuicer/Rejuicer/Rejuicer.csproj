@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Engine\BaseStringMinificationProvider.cs" />
     <Compile Include="Engine\CacheProvider.cs" />
+    <Compile Include="Engine\HashUtilities.cs" />
     <Compile Include="Engine\ImageMinificationProvider.cs" />
     <Compile Include="Engine\Log.cs" />
     <Compile Include="Engine\PhysicalFileRegister.cs" />

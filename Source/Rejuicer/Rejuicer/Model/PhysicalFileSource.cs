@@ -96,6 +96,7 @@ namespace Rejuicer.Model
                     var combinedValue = new OutputContent
                     {
                         Content = rejuicedValue,
+                        ContentHash = rejuicedValue.HashArray(),
                         AllowClientCaching = false,
                         ContentType =
                             ResourceType == ResourceType.Css ? "text/css" : "text/javascript",
@@ -111,9 +112,11 @@ namespace Rejuicer.Model
                         Log.WriteLine("Minifying Content For '{0}'", VirtualPath);
 
                         // Minified value
+                        var minifiedContent = minificationProvider.Minify(rejuicedValue);
                         var minifiedValue = new OutputContent
                                                 {
-                                                    Content = minificationProvider.Minify(rejuicedValue),
+                                                    Content = minifiedContent,
+                                                    ContentHash = minifiedContent.HashArray(),
                                                     AllowClientCaching = false,
                                                     ContentType =
                                                         ResourceType == ResourceType.Css

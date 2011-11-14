@@ -55,7 +55,7 @@ namespace Rejuicer
                 return script.ToString(TagRenderMode.Normal);
             })));
 
-            var cachedIncludes = new IncludesCacheModel { IncludesHtml = scripts, Timestamp = config.GetLastModifiedDate(cacheProvider) };
+            var cachedIncludes = new IncludesCacheModel { IncludesHtml = scripts, HashValue = config.GetHashValue(cacheProvider) };
 
             SetCachedIncludesFor(filename, cachedIncludes, dependencies);
 
@@ -72,6 +72,11 @@ namespace Rejuicer
 
             var toInclude = GetIncludesFor(filename);
             var config = RejuicerEngine.GetConfigFor(filename);
+            if (config == null)
+            {
+                return new HtmlString("");
+            }
+
             var dependencies = config.GetDependencies();
 
             var links = new HtmlString(string.Join("\n", toInclude.Select(f =>
@@ -85,7 +90,7 @@ namespace Rejuicer
                 return link.ToString(TagRenderMode.SelfClosing);
             })));
 
-            var cachedIncludes = new IncludesCacheModel { IncludesHtml = links, Timestamp = config.GetLastModifiedDate(cacheProvider) };
+            var cachedIncludes = new IncludesCacheModel { IncludesHtml = links, HashValue = config.GetHashValue(cacheProvider) };
 
             SetCachedIncludesFor(filename, cachedIncludes, dependencies);
 

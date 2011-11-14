@@ -131,7 +131,7 @@ namespace Rejuicer
                 // There are placeholders in the configuration, so iterate over each and look for a match
                 // remove any placeholders from the incoming requested filenames
                 var matchUrl = requestedFilename.Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder,
-                                          RejuicerConfigurationSource.GetTimeStampString(DateTime.Now));
+                                          "1234");
 
                 foreach (var pair in _configurations)
                 {

@@ -101,14 +101,14 @@ namespace Rejuicer.Model
             return GetContent(cacheProvider).LastModifiedDate;
         }
 
-        public static string GetTimeStampString(DateTime dateTime)
+        public string GetHashValue(ICacheProvider cacheProvider)
         {
-            return (dateTime - DateTime.MinValue).Ticks.ToString();
+            return GetContent(cacheProvider).ContentHash.HashStringValue();
         }
 
         public string GetTimestampedUrl(ICacheProvider cacheProvider)
         {
-            return RequestFor.Replace(FilenameUniquePlaceholder, GetTimeStampString(GetLastModifiedDate(cacheProvider)));
+            return RequestFor.Replace(FilenameUniquePlaceholder, GetHashValue(cacheProvider));
         }
 
         public string GetNonTimestampedUrl(ICacheProvider cacheProvider)
@@ -138,9 +138,11 @@ namespace Rejuicer.Model
                     Log.WriteLine("Combining content for '{0}'", RequestFor);
 
                     // Combine all of the files into one string
+                    var minifiedContent = minificationProvider.Combine(content.Select(x => x.Content));
                     cachedValue = new OutputContent
                                       {
-                                          Content = minificationProvider.Combine(content.Select(x => x.Content)),
+                                          Content = minifiedContent,
+                                          ContentHash = minifiedContent.HashArray(),
                                           AllowClientCaching = ContainsPlaceHolder,
                                           ContentType = minificationProvider.GetContentType(RequestFor),
                                           LastModifiedDate = content.Max(x => x.LastModifiedDate)
