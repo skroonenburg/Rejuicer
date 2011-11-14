@@ -11,7 +11,7 @@
     <tags>minify minification css javascript cache</tags>
 
     <dependencies>
-      <dependency id="YUICompressor.NET" version="1.5.0.0" />
+      <dependency id="YUICompressor.NET" version="1.6.0.2" />
       <dependency id="WebActivator" version="1.5" />
     </dependencies>
   </metadata>
