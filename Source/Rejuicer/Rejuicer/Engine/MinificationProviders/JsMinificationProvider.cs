@@ -12,26 +12,20 @@ namespace Rejuicer.Engine.MinificationProviders
     {
         public override string MinifyStringValue(string data)
         {
-            var currentCulture = Thread.CurrentThread.CurrentCulture;
-
             try
             {
-                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
                 if (string.IsNullOrEmpty(data))
                 {
                     return "";
                 }
-
-                return Yahoo.Yui.Compressor.JavaScriptCompressor.Compress(data);
+                
+                // Uses the same default values as Yahoo YUI Compressor
+                return Yahoo.Yui.Compressor.JavaScriptCompressor.Compress(data, true, true, false, false, -1, Encoding.UTF8, CultureInfo.InvariantCulture);
             }
             catch (InvalidOperationException e)
             {
                 throw new InvalidOperationException("Encountered exception trying minify invalid JavaScript.", e);
-            }
-            finally
-            {
-                Thread.CurrentThread.CurrentCulture = currentCulture;
             }
             
         }
