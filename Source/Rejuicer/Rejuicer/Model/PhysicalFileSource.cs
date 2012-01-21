@@ -112,7 +112,19 @@ namespace Rejuicer.Model
                         Log.WriteLine("Minifying Content For '{0}'", VirtualPath);
 
                         // Minified value
-                        var minifiedContent = minificationProvider.Minify(rejuicedValue);
+                        byte[] minifiedContent = null;
+                        try
+                        {
+                            minifiedContent = minificationProvider.Minify(rejuicedValue);
+                        }
+                        catch (Exception e)
+                        {
+                            // Yes, catching Exception is bad. However, anyone can plug in their own minification provider
+                            // and throw any exception they want. We want to make sure that exceptions thrown by rejuicer
+                            // have the filename inside them. So we just wrap the exception here & throw the wrapped exception.
+                            throw new InvalidOperationException(string.Format("Encountered exception trying minify invalid JavaScript for file '{0}'.", VirtualPath), e);
+                        }
+
                         var minifiedValue = new OutputContent
                                                 {
                                                     Content = minifiedContent,

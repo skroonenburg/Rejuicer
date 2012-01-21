@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 using Rejuicer.Model;
 
 namespace Rejuicer.HtmlHelpers
 {
     public class IncludesCacheModel
     {
-        public IHtmlString IncludesHtml { get; set; }
+        public MvcHtmlString IncludesHtml { get; set; }
         public string HashValue { get; set; }
 
-        public IHtmlString RenderHtml()
+        public MvcHtmlString RenderHtml()
         {
-            return new HtmlString(IncludesHtml.ToString().Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, HashValue));
+            return MvcHtmlString.Create(IncludesHtml.ToString().Replace(RejuicerConfigurationSource.FilenameUniquePlaceholder, HashValue));
         }
     }
 }

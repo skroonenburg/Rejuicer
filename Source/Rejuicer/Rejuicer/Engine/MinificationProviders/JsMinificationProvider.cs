@@ -12,22 +12,13 @@ namespace Rejuicer.Engine.MinificationProviders
     {
         public override string MinifyStringValue(string data)
         {
-            try
+            if (string.IsNullOrEmpty(data))
             {
-
-                if (string.IsNullOrEmpty(data))
-                {
-                    return "";
-                }
+                return "";
+            }
                 
-                // Uses the same default values as Yahoo YUI Compressor
-                return Yahoo.Yui.Compressor.JavaScriptCompressor.Compress(data, true, true, false, false, -1, Encoding.UTF8, CultureInfo.InvariantCulture);
-            }
-            catch (InvalidOperationException e)
-            {
-                throw new InvalidOperationException("Encountered exception trying minify invalid JavaScript.", e);
-            }
-            
+            // Uses the same default values as Yahoo YUI Compressor
+            return Yahoo.Yui.Compressor.JavaScriptCompressor.Compress(data, true, true, false, false, -1, Encoding.UTF8, CultureInfo.InvariantCulture);   
         }
 
         public override string GetContentType(string filename)

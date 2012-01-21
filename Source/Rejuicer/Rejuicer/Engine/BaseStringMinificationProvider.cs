@@ -16,20 +16,8 @@ namespace Rejuicer.Engine
         {
             // Read the data into a string
             var stringValue = data.ReadString();
-            var culture = Thread.CurrentThread.CurrentCulture;
 
-            try
-            {
-                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
-                var minifiedValue = MinifyStringValue(stringValue);
-
-                return minifiedValue.AsBytes();
-            }
-            finally
-            {
-                Thread.CurrentThread.CurrentCulture = culture;
-            }
+            return MinifyStringValue(stringValue).AsBytes();
         }
 
         public byte[] Combine(IEnumerable<byte[]> data)
