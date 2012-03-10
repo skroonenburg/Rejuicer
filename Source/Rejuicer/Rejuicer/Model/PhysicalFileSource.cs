@@ -86,6 +86,12 @@ namespace Rejuicer.Model
                     try
                     {
                         var fileBytes = File.ReadAllBytes(PhysicalPath);
+
+						if (fileBytes.Length > 2 && fileBytes[0] == 0xEF && fileBytes[1] == 0xBB && fileBytes[2] == 0xBF)
+						{
+							fileBytes = fileBytes.Skip(3).ToArray();
+						}
+
                         rejuicedValue = FileTransformationPipeline.TransformInputFile(this, fileBytes);
                     }
                     catch (IOException)
