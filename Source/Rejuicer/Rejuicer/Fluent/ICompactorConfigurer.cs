@@ -13,6 +13,7 @@ namespace Rejuicer
         ICompactorConfigurer File(string virtualPath, Mode mode);
         IDirectoryFileMatchConfigurer FilesIn(string path);
         IDirectoryFileMatchConfigurer FilesIn(string path, Mode mode);
+        ICompactorConfigurer CacheFor(TimeSpan cacheTime);
 
         void Configure();
     }
