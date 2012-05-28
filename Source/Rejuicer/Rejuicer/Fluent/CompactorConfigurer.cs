@@ -64,5 +64,11 @@ namespace Rejuicer
         {
             get { _config.Context = Context.ExceptWhenDebugging; return this; }
         }
+
+        public ICompactorConfigurer CacheFor(TimeSpan cacheTime)
+        {
+            _config.CacheFor = cacheTime;
+            return this;
+        }
     }
 }
