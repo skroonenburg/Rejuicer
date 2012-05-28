@@ -42,6 +42,8 @@ namespace Rejuicer.Model
 
         public Mode Mode { get; set; }
 
+        public TimeSpan? CacheFor { get; set; }
+
         public void AddRule(IContentSourceRule rule)
         {
             _lock.EnterWriteLock();
@@ -143,7 +145,8 @@ namespace Rejuicer.Model
                                       {
                                           Content = minifiedContent,
                                           ContentHash = minifiedContent.HashArray(),
-                                          AllowClientCaching = ContainsPlaceHolder,
+                                          AllowClientCaching = ContainsPlaceHolder || CacheFor.HasValue,
+                                          CacheFor = CacheFor,
                                           ContentType = minificationProvider.GetContentType(RequestFor),
                                           LastModifiedDate = content.Max(x => x.LastModifiedDate)
                                       };

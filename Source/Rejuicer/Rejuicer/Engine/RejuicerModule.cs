@@ -43,7 +43,7 @@ namespace Rejuicer
 
                 if (result.AllowClientCaching)
                 {
-                    response.Expires = 525600; // Browser cache expires after one year
+                    response.Expires = (int)(result.CacheFor ?? TimeSpan.FromDays(365)).TotalMinutes; 
                     response.CacheControl = "public";
                         // Any entity can cache this - be it the browser or a proxy server
                 }

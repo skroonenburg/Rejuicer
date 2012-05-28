@@ -18,6 +18,7 @@ namespace Rejuicer.Engine
         public byte[] ContentHash { get; set; }
         public string ContentType { get; set; }
         public bool AllowClientCaching { get; set; }
+        public TimeSpan? CacheFor { get; set; }
         public DateTime LastModifiedDate { get; set; }
     }
 }
