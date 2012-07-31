@@ -49,7 +49,7 @@ namespace Rejuicer
             {
                 // Output <script src='' type=''>
                 var script = new TagBuilder("script");
-                script.Attributes.Add("src", UrlHelper.GenerateContentUrl(f, new HttpContextWrapper(HttpContext.Current)));
+                script.Attributes.Add("src", virtualPathResolver.GetRelativeUrl(f));
                 script.Attributes.Add("type", "text/javascript");
 
                 return script.ToString(TagRenderMode.Normal);
