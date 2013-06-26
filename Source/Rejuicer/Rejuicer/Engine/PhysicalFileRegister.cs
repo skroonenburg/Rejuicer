@@ -27,16 +27,16 @@ namespace Rejuicer.Engine
             return fileSourceRegister.ContainsKey(virtualPath) ? fileSourceRegister[virtualPath] : null;
         }
 
-        public static PhysicalFileSource For(FileInfo file, ResourceType resourceType, Mode mode)
+        public static PhysicalFileSource For(string virtualPath, ResourceType resourceType, Mode mode)
         {
-            var virtualPathFor = VirtualPathResolver.GetVirtualPathFor(file);
+            var file = new FileInfo(VirtualPathResolver.ResolveVirtualPath(virtualPath));
 
-            var physicalFileSource = For(virtualPathFor);
+            var physicalFileSource = For(virtualPath);
 
             if (physicalFileSource == null)
             {
-                physicalFileSource = new PhysicalFileSource(resourceType, 
-                                                            virtualPathFor,
+                physicalFileSource = new PhysicalFileSource(resourceType,
+                                                            virtualPath,
                                                             file.FullName,
                                                             mode);
 

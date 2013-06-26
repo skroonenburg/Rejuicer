@@ -98,6 +98,24 @@ namespace Rejuicer.Model
             }
         }
 
+        public IEnumerable<string> GetFiles()
+        {
+            return GetFiles(null);
+        }
+
+        public IEnumerable<string> GetFiles(ResourceType? resourceType)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                return this.SelectMany(x => x.GetFiles(resourceType)).Distinct();
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
+
         public DateTime GetLastModifiedDate(ICacheProvider cacheProvider)
         {
             return GetContent(cacheProvider).LastModifiedDate;

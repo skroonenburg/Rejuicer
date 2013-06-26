@@ -51,10 +51,10 @@ namespace Rejuicer.Rules
             if (physicalPath == null)
                 return Enumerable.Empty<IContentSource>().OrderBy(x => x);
 
-            return Directory.GetFiles(physicalPath.FullName, SearchPattern ?? "*", IsRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+            return Directory.EnumerateFiles(physicalPath.FullName, SearchPattern ?? "*", IsRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                         .Select(f => new FileInfo(f))
                         .Where(FileNotExcluded)
-                        .Select(file => PhysicalFileRegister.For(file, resourceType, Mode))
+                        .Select(file => PhysicalFileRegister.For(string.Format("{0}/{1}", FolderVirtualPath, file.Name), resourceType, Mode))
                         .OfType<IContentSource>()
                         .OrderBy(x => new FileInfo(((PhysicalFileSource)x).PhysicalPath).Name);
         }

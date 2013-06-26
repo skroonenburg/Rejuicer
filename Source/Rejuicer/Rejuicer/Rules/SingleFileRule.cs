@@ -42,7 +42,7 @@ namespace Rejuicer.Model
                 return Enumerable.Empty<IContentSource>().OrderBy(x => x);
             }
 
-            return new IContentSource[] { PhysicalFileRegister.For(file, resourceType, Mode) }.OrderBy(x => x);
+            return new IContentSource[] { PhysicalFileRegister.For(VirtualPath, resourceType, Mode) }.OrderBy(x => x);
         }
     }
 }

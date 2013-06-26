@@ -51,6 +51,31 @@ namespace Rejuicer.Model
             }
         }
 
+        public IEnumerable<string> GetFiles()
+        {
+            return GetFiles(null);
+        }
+
+        public IEnumerable<string> GetFiles(ResourceType? resourceType)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                var dependencies = _dependencies.SelectMany(x => x.GetFiles(resourceType));
+
+                if (!resourceType.HasValue || ResourceType == resourceType.Value)
+                {
+                    dependencies = dependencies.Union(new[] { VirtualPath });
+                }
+
+                return dependencies;
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
+
         public OutputContent GetContent(ICacheProvider cacheProvider)
         {
             return GetContent(cacheProvider, Mode);
