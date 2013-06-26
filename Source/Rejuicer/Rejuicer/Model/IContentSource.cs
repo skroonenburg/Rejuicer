@@ -12,6 +12,8 @@ namespace Rejuicer.Model
         ResourceType ResourceType { get; }
         IEnumerable<FileInfo> GetDependencies(ResourceType? resourceType);
         IEnumerable<FileInfo> GetDependencies();
+        IEnumerable<string> GetFiles(ResourceType? resourceType);
+        IEnumerable<string> GetFiles();
         OutputContent GetContent(ICacheProvider cacheProvider);
     }
 }
